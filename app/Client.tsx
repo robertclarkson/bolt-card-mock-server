@@ -1,8 +1,19 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 
 export default function Client() {
+    const [origin, setOrigin] = useState("");
+
+    useEffect(() => {
+        setOrigin(window.location.origin);
+    }, []);
+
+    if (!origin) {
+        return null;
+    }
+
     return (
         <div className="flex min-h-screen flex-col items-center justify-center gap-8 bg-zinc-50 p-8 font-sans dark:bg-black">
             <h1 className="text-4xl font-bold text-white">Create Card</h1>
@@ -10,7 +21,7 @@ export default function Client() {
                 <QRCode
                     size={400}
                     style={{ height: "auto", maxWidth: "100%" }}
-                    value={window.location.origin + "/api/create"}
+                    value={origin + "/api/create"}
                     viewBox={`0 0 256 256`}
                 />
             </div>
@@ -36,20 +47,20 @@ export default function Client() {
                 <QRCode
                     size={400}
                     style={{ height: "auto", maxWidth: "100%" }}
-                    value={window.location.origin}
+                    value={origin}
                     viewBox={`0 0 256 256`}
                 />
             </div>
 
             <a
                 className="text-4xl font-bold text-white underline"
-                href={"boltcard://program?url=" + encodeURIComponent(window.location.origin + "/api/create")}
+                href={"boltcard://program?url=" + encodeURIComponent(origin + "/api/create")}
             >
                 Boltcard Program Deeplink
             </a>
             <a
                 className="text-4xl font-bold text-white underline"
-                href={"boltcard://reset?url=" + encodeURIComponent(window.location.origin + "/api/reset")}
+                href={"boltcard://reset?url=" + encodeURIComponent(origin + "/api/reset")}
             >
                 Boltcard Reset Deeplink
             </a>
